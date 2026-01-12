@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "tanstack-start-react-cf-starter",
+	"name": "tanstack-start-react-cf-starter-staging",
 	"compatibility_date": "2025-12-02",
 	"compatibility_flags": ["nodejs_compat"],
 	"main": "src/server.ts",
