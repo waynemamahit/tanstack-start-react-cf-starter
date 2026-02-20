@@ -1,104 +1,229 @@
-# TanStack Start on Cloudflare Workers - Deployment Guide
+# Comprehensive CI/CD and Resource Setup Guide
 
-This guide explains the deployment process, configuration management, and CI/CD setup for this TanStack Start application deployed on Cloudflare Workers.
+This guide walks through creating the Cloudflare resources used by this starter, configuring CI/CD variables/secrets, and running the project locally. Resource IDs (KV, D1, Hyperdrive, Vectorize) are stored in CI/CD variables so the repository code can reference them via environment bindings.
 
-## Dynamic Configuration (`wrangler.jsonc`)
+## Part 1 — Create a Cloudflare API Token
 
-This project uses a dynamic configuration system to manage Cloudflare bindings (KV, D1, Environment Variables) across different environments (Local, Staging, Production).
+A correctly permissioned API token is crucial for the pipeline to work.
 
-Instead of editing `wrangler.json` directly, you should edit **`wrangler.jsonc`**.
+1.  **Navigate to API Tokens:** Go to **My Profile > API Tokens** in your Cloudflare dashboard.
+2.  **Create a Custom Token:** Click **Create Token**, then find "Custom token" and click **Get started**.
+3.  **Name Your Token:** Use a descriptive name like `CI-CD-Deployment-Token`.
+4.  **Set Permissions:** Grant the following permissions exactly as listed.
 
-### How it works
+| Resource    | Permission          | Level    |
+| :---------- | :------------------ | :------- |
+| **User**    | **Memberships**     | **Read** |
+| **User**    | **API Tokens**      | **Read** |
+| **Account** | **Workers Scripts** | **Edit** |
+| Account     | Workers KV Storage  | Edit     |
+| Account     | D1                  | Edit     |
+| Account     | Hyperdrive          | Edit     |
+| Account     | Workers AI          | Edit     |
+| Account     | Vectorize           | Edit     |
+| Account     | Browser Rendering   | Edit     |
 
-1. **`wrangler.jsonc`**: This is your template file. It supports comments (`//`, `/* */`) and placeholders (`${VARIABLE_NAME}`).
-2. **`scripts/gen-wrangler.js`**: This script runs before dev/build commands. It reads `wrangler.jsonc`, substitutes placeholders with actual values, and generates the standard `wrangler.json` used by Cloudflare.
+5.  **Set Account Resources:** Under **Account Resources**, select your account.
+6.  **Client IP Address Filtering:** Leave this section **blank**.
+7.  **Create and Copy the Token:** Click **Continue to summary**, then **Create Token**. Copy the generated token immediately.
 
-### Using Placeholders
+---
 
-In `wrangler.jsonc`, you can define values using the `${VARIABLE_NAME}` syntax:
+## Part 2 — Create Cloudflare Resources (wrangler)
 
-```jsonc
-{
-  "name": "my-app",
-  "kv_namespaces": [
-    {
-      "binding": "MY_KV",
-      "id": "${KV_ID}"
-    }
-  ],
-  "vars": {
-    "API_URL": "${API_URL}"
-  }
-}
+Use the Wrangler CLI to create the namespaced resources you need. Run these locally and copy the resulting `id` (or database_id) values for CI/CD variables.
+
+Notes:
+- You must be authenticated with Wrangler (`wrangler login`) or have WRANGLER_API_TOKEN configured locally when running these commands.
+- Replace names with those you want in your account.
+
+### KV namespaces
+
+```cmd
+wrangler kv:namespace create "CF_KV_STAGING"
+wrangler kv:namespace create "CF_KV_PRODUCTION"
 ```
 
-## Local Development
+Copy the printed `id` values for each namespace.
 
-For local development, create a `.dev.vars` file in the root directory (based on `.dev.vars.example`).
+### D1 databases
 
-```env
-# .dev.vars
-KV_ID=xxxxxxxxxxxx
-API_URL=http://localhost:3000
+```cmd
+wrangler d1 create "staging_db"
+wrangler d1 create "production_db"
 ```
 
-When you run `pnpm dev` or `pnpm preview`, the script will:
-1. Read `.dev.vars`.
-2. Replace `${KV_ID}` and `${API_URL}` in `wrangler.jsonc`.
-3. Generate `wrangler.json`.
+Save each `database_id` output.
 
-**Note:** If a variable is missing in `.dev.vars`, the script might remove the corresponding binding to prevent errors, or warn you.
+### Hyperdrive configs (if you use Hyperdrive)
 
-## CI/CD Deployment
+Hyperdrive requires a connection string to a PostgreSQL instance. For production use a managed DB; for local development you can run Postgres with `docker-compose`.
 
-In CI/CD environments (GitHub Actions, GitLab CI, Bitbucket Pipelines), the values are read from the CI/CD environment variables.
+```cmd
+# Staging Hyperdrive
+wrangler hyperdrive create "staging-hyperdrive" --connection-string="postgres://user:pass@host:5432/db"
 
-### Environment Variable Naming
+# Production Hyperdrive
+wrangler hyperdrive create "production-hyperdrive" --connection-string="postgres://user:pass@host:5432/db"
+```
 
-To support multiple environments (Staging vs. Production) using the same pipeline, the script looks for variables with specific prefixes:
+Record the IDs or names returned by these commands.
 
-1. **Specific Environment Prefix**: `STAGING_KV_ID` (if environment is `staging`)
-2. **Direct Name**: `KV_ID` (fallback)
+### Vectorize indexes (optional)
 
-#### Example:
-If you are deploying to **Production**:
-- The script looks for `PRODUCTION_KV_ID`.
-- If found, it uses that value.
-- If not found, it looks to `KV_ID`.
+```cmd
+wrangler vectorize create "staging-vector-index" --dimensions=1024 --metric=cosine
+```
 
-This allows you to set a default `KV_ID` for all environments, or override it specifically for `PRODUCTION_` or `STAGING_`.
+---
 
-### Automatic Binding Cleanup
+## Part 3 — Configure CI/CD Secrets & Variables
 
-If a placeholder cannot be resolved (e.g., you haven't defined `STAGING_DB_ID` and didn't define `DB_ID`), the script is smart enough to **remove that binding completely** from the generated `wrangler.json`.
+Add the API token as a secret in your CI/CD provider and save the resource IDs as repository variables/secrets. The pipelines in this repository use a helper script (`scripts/gen-wrangler.js`) to generate a `wrangler.json` file with injected environment bindings from `wrangler.jsonc` before build/deploy. CI providers should store the resource values using the `STAGING_...` and `PRODUCTION_...` prefixed names described below.
 
-This means you can have a `wrangler.jsonc` with bindings for D1, KV, and R2, but if you only provide variables for KV in your Staging environment, the D1 and R2 bindings will be omitted for that deployment, preventing "Invalid Binding" errors.
+1) CLOUDFLARE API Token (secret)
 
-## Setting up CI/CD
+- Name: `CLOUDFLARE_API_TOKEN`
+- Value: token you created in Part 1
 
-### 1. Cloudflare API Token
-You need a Cloudflare API Token with permissions to deploy Workers.
-- Go to Cloudflare Dashboard -> My Profile -> API Tokens.
-- Create a token with "Edit Cloudflare Workers" template.
-- Add "Account - Cloudflare Pages - Edit" and others as needed.
-- Save this as `CLOUDFLARE_API_TOKEN` in your CI/CD secrets.
-- Also save your `CLOUDFLARE_ACCOUNT_ID`.
+2) Resource variables (repository variables / secrets)
 
-### 2. Configure Environment Variables
-Add your application secrets to your CI/CD repository secrets.
-- `KV_ID` / `PRODUCTION_KV_ID`
-- `DATABASE_ID` / `STAGING_DATABASE_ID`
-- etc.
+Store resource IDs and names as CI variables. Use the `STAGING_` and `PRODUCTION_` prefixes so pipelines can map them into the worker bindings. Example names:
 
-### 3. Pipelines
+- `STAGING_VALUE_FROM_CLOUDFLARE`
+- `STAGING_KV_ID`
+- `STAGING_D1_DB_ID`
+- `STAGING_HYPERDRIVE_DB_ID`
+- `STAGING_VECTORIZE_INDEX_NAME`
 
-This project comes with pre-configured pipelines for:
-- **Bitbucket Pipelines** (`bitbucket-pipelines.yml`)
-- **GitLab CI** (`.gitlab-ci.yml`)
-- **GitHub Actions** (in `.github/workflows/`)
+- `PRODUCTION_VALUE_FROM_CLOUDFLARE`
+- `PRODUCTION_KV_ID`
+- `PRODUCTION_D1_DB_ID`
+- `PRODUCTION_HYPERDRIVE_DB_ID`
+- `PRODUCTION_VECTORIZE_INDEX_NAME`
 
-These pipelines are set up to:
-1. Install dependencies (`pnpm install`).
-2. Generate `wrangler.json` for the specific environment (`node scripts/gen-wrangler.js production`).
-3. Build the application (`pnpm build`).
-4. Deploy to Cloudflare (`wrangler deploy`).
+How pipelines use these values
+- The repository CI jobs (GitHub Actions, GitLab CI, Bitbucket Pipelines) first build the application. Then they call `node scripts/gen-wrangler.js <env>` (where `<env>` is `staging` or `production`).
+- This script reads the environment variables (looking for the `STAGING_` or `PRODUCTION_` prefix) and generates a `wrangler.json` file in `build/server/` with the resolved values.
+- Finally, `wrangler deploy` is run using this generated configuration.
+
+Example (what the pipeline does under the hood):
+
+```bash
+# Pipeline environment has variables like PRODUCTION_KV_ID set
+
+# 1. Build the app
+pnpm build
+
+# 2. Generate wrangler.json for production
+node scripts/gen-wrangler.js production
+
+# 3. Deploy using the generated config
+npx wrangler deploy --config build/server/wrangler.json
+```
+
+Where to set variables per provider
+
+- GitHub Actions: add the `PRODUCTION_*` / `STAGING_*` variables under *Settings → Secrets and variables → Variables* (or *Secrets* if you prefer secrets for sensitive values).
+- GitLab CI: add variables under *Settings → CI / CD → Variables*. Use the same prefixed names above.
+- Bitbucket Pipelines: add repository variables (or secured variables) named with the same prefixes.
+
+Local development
+- For local preview you can create a `.dev.vars` file in the repo root and the generator script will read values from it when invoked with `local`.
+
+These variables are referenced by your CI job to populate the Worker environment bindings at deploy time. You generally do not need to edit `wrangler.jsonc` in the repository — CI will inject these values when publishing.
+
+---
+
+## Part 4 — Run the Project Locally
+
+For local dev you may not need all Cloudflare resources — but the project supports connecting to staging resources for a close-to-production experience.
+
+### 1) Local Postgres for Hyperdrive (optional)
+
+If you use Hyperdrive locally, start the included Docker Compose Postgres service:
+
+```cmd
+docker-compose up -d
+```
+
+This creates a Postgres instance compatible with the Hyperdrive settings in `wrangler.jsonc`.
+
+### 2) Configure `.dev.vars`
+
+Create or edit `.dev.vars` at the repository root and add your staging resource IDs and `WRANGLER_ENV`.
+
+Example `.dev.vars`:
+
+```
+VALUE_FROM_CLOUDFLARE="Hello from Cloudflare Staging!"
+KV_ID="a1b2c3d4e5f6"
+D1_DB_ID="b2c3d4e5f6a1"
+HYPERDRIVE_DB_ID="c3d4e5f6a1b2"
+VECTORIZE_INDEX_NAME="staging-vector-index"
+```
+
+Important: `.dev.vars` is for local development only — do not commit secrets to the repo.
+
+### 3) Start development
+
+```cmd
+pnpm install
+pnpm dev
+```
+
+This runs the Vite dev server and the local SSR process. The client should be available at `http://localhost:5173`.
+
+### 4) Preview production build locally
+
+```cmd
+pnpm build
+pnpm preview
+```
+
+`pnpm preview` serves the production build using the worker/server bundle. It uses `scripts/gen-wrangler.js local` to generate a temporary `wrangler.json` from your `.dev.vars` and runs `wrangler dev --local`.
+
+To preview with remote resources (actually connecting to Cloudflare):
+
+```cmd
+pnpm preview:remote
+```
+
+---
+
+## Part 5 — Accessing Bindings in Application Code
+
+Bindings are available on the Hono context `c.env` (or via Worker globals depending on runtime). Types are generated where configured.
+
+- Durable Objects: `c.env.DURABLE_OBJECTS` (example in `server/durable_objects/counter.do.ts`)
+
+```ts
+const durable = c.env.DURABLE_OBJECTS.get(id);
+```
+
+- Workers AI (if configured):
+
+```ts
+const response = await c.env.AI.run('@cf/meta/llama-2-7b-chat-int8', { prompt: '...' });
+```
+
+- Vectorize:
+
+```ts
+const matches = await c.env.VECTORIZE.query(vector, { topK: 5 });
+```
+
+- Browser rendering bindings:
+
+```ts
+const browser = await puppeteer.get(c.env.BROWSER);
+```
+
+---
+
+If you want, I can also:
+
+- Generate a sample GitHub Actions workflow that uses the `CLOUDFLARE_API_TOKEN` and the repo variables to deploy to staging and production.
+- Scan `package.json` and `wrangler.jsonc` to confirm exact script names used by `pnpm`.
+
+If you'd like either of those, tell me which CI provider to target.

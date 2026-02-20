@@ -1,4 +1,4 @@
-image: node:24.11.0-alpine
+image: node:24.13.0-alpine
 
 pipelines:
   branches:
@@ -7,7 +7,7 @@ pipelines:
           name: Deploy to Staging
           script:
             - node --version
-            - npm install -g pnpm
+            - npm install -g pnpm@latest
             - pnpm install
             - pnpm run build
             - node scripts/gen-wrangler.js staging
@@ -21,7 +21,7 @@ pipelines:
           name: Deploy to Production
           script:
             - node --version
-            - npm install -g pnpm
+            - npm install -g pnpm@latest
             - pnpm install
             - pnpm run build
             - node scripts/gen-wrangler.js production

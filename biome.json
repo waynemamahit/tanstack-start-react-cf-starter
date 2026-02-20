@@ -1,50 +1,51 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
-	},
-	"files": {
-		"ignoreUnknown": false,
-		"includes": [
-			"**/src/**/*",
-			"**/.vscode/**/*",
-			"**/index.html",
-			"**/vite.config.js",
-			"!**/src/routeTree.gen.ts",
-			"!**/src/styles.css"
-		]
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab"
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
-		},
-		"domains": {
-			"react": "recommended"
-		}
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "double"
-		}
-	},
-	"assist": {
-		"enabled": true,
-		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
-		}
-	},
-	"css": {
-		"parser": {
-			"tailwindDirectives": true
-		}
-	}
+  "$schema": "https://biomejs.dev/schemas/2.4.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "coverage",
+      "node_modules",
+      "build",
+      ".mf",
+      ".wrangler",
+      "**/*.{ts,tsx,js,jsx,json,jsonc,md,mdx,html,css,scss,sass,less,yml,yaml,toml,xml,svg,png,jpg,jpeg,gif,webp,ico,eot,ttf,woff,woff2}"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "includes": ["!!**/routeTree.gen.ts"],
+    "rules": {
+      "recommended": true
+    },
+    "domains": {
+      "react": "recommended"
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
 }

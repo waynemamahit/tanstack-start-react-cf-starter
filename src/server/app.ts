@@ -6,7 +6,7 @@ import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
 
 type Bindings = {
-	MY_VARIABLE: string;
+  MY_VARIABLE: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -25,16 +25,16 @@ app.use("*", csrf());
 
 // API routes example
 app.get("/api/health", (c) => {
-	return c.json({ status: "ok", timestamp: new Date().toISOString() });
+  return c.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // TanStack Start SSR handler - must be after custom routes
 app.use("*", async (c) => {
-	return await handler.fetch(c.req.raw);
+  return await handler.fetch(c.req.raw);
 });
 
 export default createServerEntry({
-	fetch: app.fetch,
+  fetch: app.fetch,
 });
 
-export { Counter } from "./server/durable-objects/counter.do";
+export { Counter } from "./durable-objects/counter.do";
