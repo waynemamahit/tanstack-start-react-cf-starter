@@ -13,6 +13,7 @@
       "build",
       ".mf",
       ".wrangler",
+      "**/*.gen.ts",
       "**/*.{ts,tsx,js,jsx,json,jsonc,md,mdx,html,css,scss,sass,less,yml,yaml,toml,xml,svg,png,jpg,jpeg,gif,webp,ico,eot,ttf,woff,woff2}"
     ]
   },
@@ -22,7 +23,7 @@
   },
   "linter": {
     "enabled": true,
-    "includes": ["!!**/routeTree.gen.ts"],
+    "includes": ["!!**/*.gen.ts"],
     "rules": {
       "recommended": true
     },
