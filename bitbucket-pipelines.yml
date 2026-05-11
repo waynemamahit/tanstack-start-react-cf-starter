@@ -1,4 +1,14 @@
-image: node:24.15.0-alpine
+image: node:lts
+
+definitions:
+  scripts:
+    # Use Node.js version defined in package.json -> engines.node
+    - &use-node-version >-
+      export NODE_VERSION=$(node -p "require('./package.json').engines.node")
+      && npm install -g n
+      && n $NODE_VERSION
+      && hash -r
+      && node --version
 
 pipelines:
   branches:
@@ -6,7 +16,7 @@ pipelines:
       - step:
           name: Deploy to Staging
           script:
-            - node --version
+            - *use-node-version
             - npm install -g pnpm@latest
             - pnpm install
             - pnpm run build
@@ -20,7 +30,7 @@ pipelines:
       - step:
           name: Deploy to Production
           script:
-            - node --version
+            - *use-node-version
             - npm install -g pnpm@latest
             - pnpm install
             - pnpm run build

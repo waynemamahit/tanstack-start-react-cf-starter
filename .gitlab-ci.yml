@@ -1,4 +1,4 @@
-image: node:24.15.0-alpine
+image: node:lts
 
 stages:
   - deploy
@@ -8,6 +8,11 @@ cache:
     - node_modules/
 
 before_script:
+  # Use Node.js version defined in package.json -> engines.node
+  - export NODE_VERSION=$(node -p "require('./package.json').engines.node")
+  - npm install -g n
+  - n $NODE_VERSION
+  - hash -r
   - node --version
   - npm install -g pnpm@latest
   - pnpm install
