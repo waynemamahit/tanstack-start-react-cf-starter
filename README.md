@@ -8,9 +8,9 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 
 ### Frontend
 - **React 19.2+** — Latest modern patterns with hooks, Suspense, and Server Components
-- **TanStack Start 1.161+** — Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) powered by TanStack Router
-- **TypeScript 5.9+** — Strict type safety, **no `any` type allowed**
-- **TailwindCSS 4.2+** — Utility-first CSS with mobile-first responsive design
+- **TanStack Start 1.167+** — Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) powered by TanStack Router
+- **TypeScript 6.0+** — Strict type safety, **no `any` type allowed**
+- **TailwindCSS 4.3+** — Utility-first CSS with mobile-first responsive design
 - **Semantic HTML & ARIA** — Accessibility (skip links, keyboard nav, focus management) and SEO
 - **DaisyUI 5.5+** — UI components with customizable themes (default: **light**)
 - **Lucide React** — Icon library (`lucide-react`)
@@ -19,7 +19,7 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 
 ### Backend
 - **Hono 4.12+** — Fast, edge-native API framework with SOLID principles
-- **TypeScript 5.9+** — Type-safe backend, **no `any` type allowed**
+- **TypeScript 6.0+** — Type-safe backend, **no `any` type allowed**
 - **i18next** — Backend internationalization with Hono integration
 - **CSRF Protection** — Hono `csrf()` middleware for all mutation endpoints
 - **CORS Protection** — Configurable origins via `wrangler.jsonc` variables
@@ -88,9 +88,9 @@ Before starting, ensure you have the following installed:
 | Tool | Version | Purpose |
 |------|---------|---------|
 | **Node.js** | 24+ LTS | JavaScript runtime |
-| **PNPM** | 10+ | Package manager |
+| **PNPM** | 11+ | Package manager |
 | **Docker** | Latest | Local PostgreSQL for Hyperdrive |
-| **Wrangler CLI** | 4.67+ | Cloudflare deployments |
+| **Wrangler CLI** | 4.90+ | Cloudflare deployments |
 | **Git** | Latest | Version control |
 
 ### Install Global Tools
@@ -411,7 +411,7 @@ pnpm db:studio                  # Open Hyperdrive Drizzle Studio
 # ─────────────────────────────────────────────────────────
 pnpm test                       # Run all Vitest tests
 pnpm test:ui                    # Vitest UI (browser)
-pnpm e2e                        # Playwright E2E tests
+pnpm test:e2e                   # Playwright E2E tests
 
 # ─────────────────────────────────────────────────────────
 # BUILD & DEPLOY
