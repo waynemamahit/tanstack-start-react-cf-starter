@@ -4,12 +4,9 @@ import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
+import { rateLimiter } from "hono-rate-limiter";
 
-type Bindings = {
-  MY_VARIABLE: string;
-};
-
-const app = new Hono<{ Bindings: Bindings }>();
+const app = new Hono<{ Bindings: Env }>();
 
 // Logger middleware - logs all requests
 app.use("*", logger());
@@ -22,6 +19,14 @@ app.use("*", cors());
 
 // CSRF Protection middleware - protect against CSRF attacks
 app.use("*", csrf());
+
+// Rate Limiting middleware - protect against abuse
+app.use(
+  rateLimiter<{ Bindings: Env }>({
+    binding: (c) => c.env.LONG_RATE_LIMITER,
+    keyGenerator: (c) => c.req.header("cf-connecting-ip") ?? "",
+  }),
+);
 
 // API routes example
 app.get("/api/health", (c) => {

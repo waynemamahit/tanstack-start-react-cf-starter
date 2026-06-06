@@ -8,7 +8,7 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 
 ### Frontend
 - **React 19.2+** — Latest modern patterns with hooks, Suspense, and Server Components
-- **TanStack Start 1.167+** — Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) powered by TanStack Router
+- **TanStack Start 1.168+** — Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) powered by TanStack Router
 - **TypeScript 6.0+** — Strict type safety, **no `any` type allowed**
 - **TailwindCSS 4.3+** — Utility-first CSS with mobile-first responsive design
 - **Semantic HTML & ARIA** — Accessibility (skip links, keyboard nav, focus management) and SEO
@@ -23,7 +23,7 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 - **i18next** — Backend internationalization with Hono integration
 - **CSRF Protection** — Hono `csrf()` middleware for all mutation endpoints
 - **CORS Protection** — Configurable origins via `wrangler.jsonc` variables
-- **Rate Limiting** — Edge-native via Cloudflare `RateLimit` bindings with `hono-rate-limiter`
+- **Rate Limiting** — Edge-native via Cloudflare `RateLimit` bindings
 - **Secure Headers** — CSP, X-Frame-Options, etc. via `hono/secure-headers`
 - **Logger Service** — Centralized logging with correlation ID and sensitive data sanitization
 - **Global Error Handling** — Automatic error catching and logging for production debugging
@@ -90,7 +90,7 @@ Before starting, ensure you have the following installed:
 | **Node.js** | 24+ LTS | JavaScript runtime |
 | **PNPM** | 11+ | Package manager |
 | **Docker** | Latest | Local PostgreSQL for Hyperdrive |
-| **Wrangler CLI** | 4.90+ | Cloudflare deployments |
+| **Wrangler CLI** | 4.98+ | Cloudflare deployments |
 | **Git** | Latest | Version control |
 
 ### Install Global Tools

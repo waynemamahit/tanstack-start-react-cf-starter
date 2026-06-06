@@ -35,10 +35,10 @@ context: |
   | Technology                | Version  | Purpose                                                        |
   | ------------------------- | -------- | -------------------------------------------------------------- |
   | **React**                 | 19.2+    | Latest modern patterns: hooks, Suspense, Server Components     |
-  | **TanStack Start**        | 1.167+   | Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) |
+  | **TanStack Start**        | 1.168+   | Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) |
   | **TailwindCSS**           | 4.3+     | Utility-first CSS with mobile-first responsive design          |
   | **DaisyUI**               | 5.5+     | UI components with customizable themes (default: **light**)    |
-  | **Lucide React**          | 1.14+    | `lucide-react` for UI icons                                    |
+  | **Lucide React**          | 1.17+    | `lucide-react` for UI icons                                    |
   | **react-i18next**         | 17+      | Frontend internationalization                                  |
 
   ### Backend
@@ -59,7 +59,7 @@ context: |
   | **Vitest**                  | 4.0+     | Unit and integration testing framework                       |
   | **React Testing Library**   | 16+      | Component testing with accessibility focus                   |
   | **@testing-library/jest-dom** | 6.9+   | Extended DOM matchers for assertions                         |
-  | **Playwright**              | 1.59+    | End-to-end testing across browsers                           |
+  | **Playwright**              | 1.60+    | End-to-end testing across browsers                           |
   | **jsdom**                   | 29+      | DOM environment for Vitest component tests                   |
   | **@vitest/coverage-v8**     | 4.0+     | Coverage provider with 90% threshold enforcement             |
 
@@ -82,8 +82,8 @@ context: |
   | Technology                     | Purpose                                           |
   | ------------------------------ | ------------------------------------------------- |
   | **Docker Compose**             | Local PostgreSQL for Hyperdrive development       |
-  | **Wrangler**                   | 4.90+, Cloudflare CLI for dev, types, deployment. Config must be testable locally. |
-  | **@cloudflare/vite-plugin**    | 1.36+, Vite integration for Workers dev           |
+  | **Wrangler**                   | 4.98+, Cloudflare CLI for dev, types, deployment. Config must be testable locally. |
+  | **@cloudflare/vite-plugin**    | 1.40+, Vite integration for Workers dev           |
 
   ---
 
