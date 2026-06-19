@@ -39,9 +39,10 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 - **Theme & Language Selector** — Built into main layout with DaisyUI themes
 
 ### Testing
-- **Vitest 4.0+** — Unit + integration testing framework (with explicit D1/Hyperdrive and Service mocking via Awilix)
+- **Vitest 4.1+** — Unit + integration testing framework (with explicit D1/Hyperdrive and Service mocking via Awilix)
+- **@cloudflare/vitest-pool-workers 0.16+** — Run integration tests in the real `workerd` runtime with live bindings
 - **React Testing Library** — Component testing with accessibility focus
-- **Playwright** — End-to-end testing across browsers (`from Playwright-E2E` prefix enforced)
+- **Playwright 1.61+** — End-to-end testing across browsers (`from Playwright-E2E` prefix enforced)
 - **90%+ Coverage** — Minimum coverage requirement (statements, branches, functions, lines) enforced by v8
 - **Comprehensive Testing** — Component, API, utility, integration, and E2E tests
 
@@ -90,7 +91,7 @@ Before starting, ensure you have the following installed:
 | **Node.js** | 24+ LTS | JavaScript runtime |
 | **PNPM** | 11+ | Package manager |
 | **Docker** | Latest | Local PostgreSQL for Hyperdrive |
-| **Wrangler CLI** | 4.98+ | Cloudflare deployments |
+| **Wrangler CLI** | 4.103+ | Cloudflare deployments |
 | **Git** | Latest | Version control |
 
 ### Install Global Tools
@@ -250,7 +251,7 @@ pnpm test
 pnpm test:ui
 
 # Run Playwright E2E tests
-pnpm e2e
+pnpm test:e2e
 ```
 
 ### Coverage Requirements
