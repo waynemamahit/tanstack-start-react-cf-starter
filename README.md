@@ -12,8 +12,8 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 - **TypeScript 6.0+** — Strict type safety, **no `any` type allowed**
 - **TailwindCSS 4.3+** — Utility-first CSS with mobile-first responsive design
 - **Semantic HTML & ARIA** — Accessibility (skip links, keyboard nav, focus management) and SEO
-- **DaisyUI 5.5+** — UI components with customizable themes (default: **light**)
-- **Lucide React** — Icon library (`lucide-react`)
+- **DaisyUI 5.6+** — UI components with customizable themes (default: **light**)
+- **Lucide React 1.23+** — Icon library (`lucide-react`)
 - **react-i18next** — Frontend internationalization with centralized translation files
 - **Form Layouts** — Following [TailwindCSS form layouts](https://tailwindcss.com/plus/ui-blocks/application-ui/forms/form-layouts)
 
@@ -40,7 +40,7 @@ A production-ready full-stack starter template built on **TanStack Start** with 
 
 ### Testing
 - **Vitest 4.1+** — Unit + integration testing framework (with explicit D1/Hyperdrive and Service mocking via Awilix)
-- **@cloudflare/vitest-pool-workers 0.16+** — Run integration tests in the real `workerd` runtime with live bindings
+- **@cloudflare/vitest-pool-workers 0.17+** — Run integration tests in the real `workerd` runtime with live bindings
 - **React Testing Library** — Component testing with accessibility focus
 - **Playwright 1.61+** — End-to-end testing across browsers (`from Playwright-E2E` prefix enforced)
 - **90%+ Coverage** — Minimum coverage requirement (statements, branches, functions, lines) enforced by v8
@@ -88,10 +88,10 @@ Before starting, ensure you have the following installed:
 
 | Tool | Version | Purpose |
 |------|---------|---------|
-| **Node.js** | 24+ LTS | JavaScript runtime |
+| **Node.js** | 24.18+ | JavaScript runtime |
 | **PNPM** | 11+ | Package manager |
 | **Docker** | Latest | Local PostgreSQL for Hyperdrive |
-| **Wrangler CLI** | 4.103+ | Cloudflare deployments |
+| **Wrangler CLI** | 4.106+ | Cloudflare deployments |
 | **Git** | Latest | Version control |
 
 ### Install Global Tools
@@ -125,8 +125,8 @@ pnpm install
 ```
 
 This installs all project dependencies including:
-- React 19, TanStack Start, TypeScript
-- TailwindCSS 4+, DaisyUI, Lucide React
+- React 19.2+, TanStack Start 1.168+, TypeScript 6.0+
+- TailwindCSS 4.3+, DaisyUI 5.6+, Lucide React 1.23+
 - Hono, Drizzle ORM, Zod
 - Vitest, React Testing Library, Playwright
 - i18next, react-i18next
