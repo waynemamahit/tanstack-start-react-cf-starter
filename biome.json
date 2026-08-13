@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -13,7 +13,7 @@
       "build",
       ".mf",
       ".wrangler",
-      "**/*.gen.ts",
+      "!!**/*.gen.ts",
       "**/*.{ts,tsx,js,jsx,json,jsonc,md,mdx,html,css,scss,sass,less,yml,yaml,toml,xml,svg,png,jpg,jpeg,gif,webp,ico,eot,ttf,woff,woff2}"
     ]
   },

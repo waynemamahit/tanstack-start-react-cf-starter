@@ -24,11 +24,11 @@ context: |
 
   | Category              | Technology    | Version  | Purpose                                      |
   | --------------------- | ------------- | -------- | -------------------------------------------- |
-  | **Runtime**           | Node.js       | 24.18+   | JavaScript runtime                           |
+  | **Runtime**           | Node.js       | 24.19+   | JavaScript runtime                           |
   | **Package Manager**   | PNPM          | 11+      | Fast, efficient dependency management        |
-  | **Language**          | TypeScript    | 6.0+     | Type safety, **no `any` type allowed**       |
+  | **Language**          | TypeScript    | 7.0+     | Type safety, **no `any` type allowed**       |
   | **Formatting/Linting**| Biome.js      | 2.5+     | Fast, unified code quality tooling           |
-  | **Build Tool**        | Vite          | 8.1+     | Frontend build and dev server                |
+  | **Build Tool**        | Vite          | 8.2+     | Frontend build and dev server                |
 
   ### Frontend
 
@@ -37,15 +37,15 @@ context: |
   | **React**                 | 19.2+    | Latest modern patterns: hooks, Suspense, Server Components     |
   | **TanStack Start**        | 1.168+   | Full-stack React framework ([docs](https://tanstack.com/start/latest/docs/framework/react)) |
   | **TailwindCSS**           | 4.3+     | Utility-first CSS with mobile-first responsive design          |
-  | **DaisyUI**               | 5.6+     | UI components with customizable themes (default: **light**)    |
-  | **Lucide React**          | 1.23+    | `lucide-react` for UI icons                                    |
+  | **DaisyUI**               | 5.7+     | UI components with customizable themes (default: **light**)    |
+  | **Lucide React**          | 1.31+    | `lucide-react` for UI icons                                    |
   | **react-i18next**         | 17+      | Frontend internationalization                                  |
 
   ### Backend
 
   | Technology                | Version  | Purpose                                                        |
   | ------------------------- | -------- | -------------------------------------------------------------- |
-  | **Hono**                  | 4.12+    | Fast, edge-native API framework with SOLID principles          |
+  | **Hono**                  | 4.13+    | Fast, edge-native API framework with SOLID principles          |
   | **i18next**               | 26+      | Backend internationalization with Hono integration             |
   | **Drizzle ORM**           | 0.45+    | Type-safe database with migrations (separate D1 + Hyperdrive)  |
   | **Zod**                   | 4.4+     | Runtime schema validation (shared frontend + backend)          |
@@ -57,11 +57,11 @@ context: |
   | Technology                  | Version  | Purpose                                                      |
   | --------------------------- | -------- | ------------------------------------------------------------ |
   | **Vitest**                  | 4.1+     | Unit and integration testing framework                       |
-  | **@cloudflare/vitest-pool-workers** | 0.17+ | Run integration tests in the real `workerd` runtime with bindings |
+  | **@cloudflare/vitest-pool-workers** | 0.21+ | Run integration tests in the real `workerd` runtime with bindings |
   | **React Testing Library**   | 16+      | Component testing with accessibility focus                   |
-  | **@testing-library/jest-dom** | 6.9+   | Extended DOM matchers for assertions                         |
-  | **Playwright**              | 1.61+    | End-to-end testing across browsers                           |
-  | **jsdom**                   | 29+      | DOM environment for Vitest component tests                   |
+  | **@testing-library/jest-dom** | 7.0+   | Extended DOM matchers for assertions                         |
+  | **Playwright**              | 1.62+    | End-to-end testing across browsers                           |
+  | **jsdom**                   | 30+      | DOM environment for Vitest component tests                   |
   | **@vitest/coverage-v8**     | 4.1+     | Coverage provider with 90% threshold enforcement             |
 
   ### Cloudflare Services
@@ -83,8 +83,8 @@ context: |
   | Technology                     | Purpose                                           |
   | ------------------------------ | ------------------------------------------------- |
   | **Docker Compose**             | Local PostgreSQL for Hyperdrive development       |
-  | **Wrangler**                   | 4.106+, Cloudflare CLI for dev, types, deployment. Config must be testable locally. |
-  | **@cloudflare/vite-plugin**    | 1.42+, Vite integration for Workers dev           |
+  | **Wrangler**                   | 4.122+, Cloudflare CLI for dev, types, deployment. Config must be testable locally. |
+  | **@cloudflare/vite-plugin**    | 1.52+, Vite integration for Workers dev           |
 
   ---
 
