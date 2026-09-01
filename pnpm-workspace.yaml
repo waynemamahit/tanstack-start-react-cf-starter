@@ -2,19 +2,7 @@ allowBuilds:
   esbuild: true
   workerd: true
 minimumReleaseAgeExclude:
-  - '@cloudflare/vite-plugin@1.52.0'
-  - '@cloudflare/vitest-pool-workers@0.21.2'
-  - '@tanstack/react-router@1.170.27'
-  - '@tanstack/react-start-client@1.168.25'
-  - '@tanstack/react-start-rsc@0.1.43'
-  - '@tanstack/react-start-server@1.167.32'
-  - '@tanstack/react-start@1.168.44'
-  - '@tanstack/router-core@1.171.22'
-  - '@tanstack/router-generator@1.167.28'
-  - '@tanstack/router-plugin@1.168.30'
-  - '@tanstack/start-client-core@1.170.22'
-  - '@tanstack/start-plugin-core@1.171.34'
-  - '@tanstack/start-server-core@1.169.26'
-  - '@tanstack/start-storage-context@1.167.24'
-  - miniflare@5.20260811.0-alpha
-  - wrangler@4.122.0
+  - '@hono/zod-validator@0.9.1'
+  - daisyui@5.7.23
+  - i18next@26.4.1
+  - lucide-react@1.38.0
